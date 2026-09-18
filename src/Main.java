@@ -1,4 +1,7 @@
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 class Developer {
     private String name;
@@ -50,6 +53,42 @@ class BackendDeveloper extends Developer {
     public void showStatus(){
         super.showStatus();
         System.out.println("Specialty: " + backendLanguage);
+    }
+}
+
+class Player {
+    private String name;
+    private int hp;
+
+    public Player(String name, int hp){
+        this.name = name;
+        this.hp = hp;
+    }
+
+    public int getHp(){
+        return this.hp;
+    }
+
+    public void setHp(int hp){
+        this.hp = hp;
+    }
+
+    public void showStatus(){
+        System.out.println("Name: " + name + " | hp: " + hp);
+    }
+}
+
+class Visitor {
+    private String userId;
+    private String visitTime;
+
+    public Visitor(String userId, String visitTime){
+        this.userId = userId;
+        this.visitTime = visitTime;
+    }
+
+    public String getUserId(){
+        return this.userId;
     }
 }
 
@@ -156,7 +195,7 @@ public class Main {
         System.out.println("--- Backend Developer ---");
         backendDev.showStatus();
         backendDev.runServer();
-
+    
 
         // 10. 컬렉션 프레임워크(Collections) - ArrayList
         ArrayList<String> projectTeam = new ArrayList<>();
@@ -174,6 +213,100 @@ public class Main {
         System.out.println("\n--- After Neogul left work ---");
         System.out.println("Current Team: " + projectTeam);
         System.out.println("Team Size: " + projectTeam.size());
+
+
+        // Mini Coding Mission
+        ArrayList<Player> party = new ArrayList<>();
+        Player user1 = new Player("jangtoul", 100);
+        Player user2 = new Player("yeoul", 100);
+
+        party.add(user1);
+        party.add(user2);
+        System.out.println("party member: " + party.size());
+
+        for(Player p : party){
+            p.showStatus();
+        }
+
+
+        // 11. 컬렉션 프레임워크(Collections) - HashMap
+        HashMap<String, Integer> studentScores = new HashMap<>();
+
+        studentScores.put("jangtoul", 90);
+        studentScores.put("yeoul", 100);
+        studentScores.put("kongdol", 70);
+
+        System.out.println("--- Score ---");
+        System.out.println(studentScores);
+
+        int yeoulScore = studentScores.get("yeoul");
+        System.out.println("yeoul's score: " + yeoulScore);
+
+        studentScores.put("kongdol", 85);
+        System.out.println("kongdol's retry score: " + studentScores.get("kongdol"));
+
+        studentScores.remove("kongdol");
+        if(studentScores.containsKey("kongdol")){
+            System.out.println("kongdol is studying");
+        } else {
+            System.out.println("kongdol go to home");
+        }
+
+
+        // 12. 컬렉션 프레임워크(Collections) - HashSet
+        HashSet<String> uniqueSkills = new HashSet<>();
+
+        uniqueSkills.add("Java");
+        uniqueSkills.add("Python");
+        uniqueSkills.add("Unity");
+
+        uniqueSkills.add("Java");
+        uniqueSkills.add("Java");
+
+        System.out.println("--- Skill Set ---");
+        System.out.println(uniqueSkills);
+        System.out.println("Total unique skills: " + uniqueSkills.size());
+
+        if(uniqueSkills.contains("Python")){
+            System.out.println("Python is in the skill set");
+        }
+
+        uniqueSkills.remove("Unity");
+        System.out.println(uniqueSkills);
+
+
+        // 13. HashSet을 활용해 쇼핑몰 순수 방문자 수 구하기
+        ArrayList<Visitor> visitLogs = new ArrayList<>();
+        visitLogs.add(new Visitor("jangtoul", "09:00"));
+        visitLogs.add(new Visitor("yeoul", "10:00"));
+        visitLogs.add(new Visitor("jangtoul", "12:00"));
+        visitLogs.add(new Visitor("kongdol", "15:00"));
+        visitLogs.add(new Visitor("jangtoul", "19:00"));
+        System.out.println("Total DB Logs: " + visitLogs.size());
+
+        HashSet<String> uniqueUsers = new HashSet<>();
+        for(Visitor v : visitLogs) {
+            String extractedId = v.getUserId();
+            uniqueUsers.add(extractedId);
+        }
+
+        System.out.println("Unique Visitors Count: " + uniqueUsers.size());
+        System.out.println("Unique Visitors ID: " + uniqueUsers);
+
+
+        // 14. 예외 처리(Exception Handling: try-catch)
+        System.out.println("--- Start ---");
+
+        String userInput = "jangtoul";
+        try {
+            int score = Integer.parseInt(userInput);
+            System.out.println("Score: " + score);
+        } catch (Exception e) {
+            System.out.println("ERROR: Invaild Input! Please enter a number");
+            System.out.println("System Message: " + e.getMessage());
+        }
+
+        System.out.println("--- Continued ---");
     }
 
     public static void printProfile(String name, int level){
