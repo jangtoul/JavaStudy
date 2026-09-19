@@ -1,7 +1,76 @@
 import java.awt.image.AreaAveragingScaleFilter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+interface Payment {
+    void pay();
+}
+
+interface Notification {
+    void send(String message);
+}
+
+interface Weapon {
+    void attack();
+}
+
+class KakaoPay implements Payment {
+    @Override
+    public void pay(){
+        System.out.println("Processing KakaoPay...");
+    }
+}
+
+class NaverPay implements Payment {
+    @Override
+    public void pay(){
+        System.out.println("Processing NaverPay...");
+    }
+}
+
+class OrderSystem {
+    public void processOrder(Payment selectedPay){
+        System.out.println("--- Start Check ---");
+        selectedPay.pay();
+        System.out.println("--- Check Complete ---");
+    }
+}
+
+class KakaoNoti implements Notification {
+    @Override
+    public void send(String message){
+        System.out.println("KaKaoTalk: " + message);
+    }
+}
+
+class SmsNoti implements Notification {
+    @Override
+    public void send(String message){
+        System.out.println("SMS: " + message);
+    }
+}
+
+class Sword implements Weapon {
+    @Override
+    public void attack(){
+        System.out.println("Swing a sword!");
+    }
+}
+
+class Bow implements Weapon {
+    @Override
+    public void attack(){
+        System.out.println("Shoot an arrow!");
+    }
+}
+
+class Hero {
+    public void attackByWeapon(Weapon w){
+        w.attack();
+    }
+}
 
 class Developer {
     private String name;
@@ -307,6 +376,77 @@ public class Main {
         }
 
         System.out.println("--- Continued ---");
+
+
+        // Mini Coding Mission
+        String ageInput = "twenty";
+        try {
+            int age = Integer.parseInt(ageInput);
+        } catch (Exception e) {
+            System.out.println("ERROR: Please enter a valid number!");
+        }
+
+        HashSet<String> vipList = new HashSet<>();
+        vipList.add("jangtoul");
+        vipList.add("yeoul");
+        vipList.add("kongdol");
+        vipList.add("jangtoul");
+
+        System.out.println("VIP List: " + vipList + " | VIP Size: " + vipList.size());
+
+
+        // 15. 인터페이스(Interface)
+        System.out.println("--- Yeoul's Shopping Mall ---");
+
+        Payment myPay = new KakaoPay();
+        myPay.pay();
+
+        Payment myPay2 = new NaverPay();
+        myPay2.pay();
+
+
+        // 16. 다형성(Polymorphism)
+        OrderSystem system = new OrderSystem();
+
+        Payment user1Choice = new KakaoPay();
+        system.processOrder(user1Choice);
+
+        Payment user2Choice = new NaverPay();
+        system.processOrder(user2Choice);
+
+        ArrayList<Payment> todayPayments = new ArrayList<>();
+        todayPayments.add(new KakaoPay());
+        todayPayments.add(new NaverPay());
+        todayPayments.add(new NaverPay());
+
+        System.out.println("--- Today's Payments ---");
+        for(Payment p : todayPayments){
+            p.pay();
+        }
+
+
+        // Mini Coding Mission
+        ArrayList<Notification> notiList = new ArrayList<>();
+        notiList.add(new KakaoNoti());
+        notiList.add(new SmsNoti());
+
+        for(Notification n : notiList){
+            n.send("Your food is on the way!");
+        }
+
+
+        // Mini Coding Mission
+        ArrayList<Weapon> weaponList = new ArrayList<>();
+        weaponList.add(new Sword());
+        weaponList.add(new Bow());
+        weaponList.add(new Sword());
+        weaponList.add(new Sword());
+        weaponList.add(new Bow());
+
+        Hero hero1 = new Hero();
+        for(Weapon w : weaponList) {
+            hero1.attackByWeapon(w);
+        }
     }
 
     public static void printProfile(String name, int level){
